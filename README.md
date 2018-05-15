@@ -38,3 +38,31 @@ UNIQUE = valores unicos
 PRIMARY KEY = Llave primaria
 FOREIGN KEY = Llave foranea
 CHECK 
+## Tipos de Dato
+- VARCHAR(*tam*) Datos de caracteres de longitud variable
+- CHAR(*tam*) Datos de caracteres de Longitud fija
+- NUMERIC(p, s) Datos numericos de precision 'p' y escala 's'
+- INT Datos numericos
+- DATE Datos de Fecha
+- TIME Datos de Tiempo
+- DATETIME Datos de Fecha y Tiempo
+- VARBINADRY Datos binarios de longitud variable
+- UNIQUEIDENTIFIER Identificador GUID de 16 bytes
+- BIT Valor que se utiliza para representar booleanos
+
+## use de Sentencias DDL Para Manipular Datos
+### Sentencia CREATE
+
+```sql
+CREATE TABLE esquema.tabla (Column tipo_dato [DEFAULT expr][, ...]);
+```
+Ejemplo
+
+```sql
+CREATE TABLE dbo.PERSON (
+	PersonId INT CONSTRAINT PK_Person PRIMARY KEY,
+	Name VARCHAR(50) CONSTRAINT NN_Name NOT NULL,
+	Ci INT CONSTRAINT CK_Ci CHECK(Ci > 0),
+	CreatedAt DATE DEFAULT GETDATE() CONSTRAINT NN_CreatedAt NOT NULL
+);
+```
