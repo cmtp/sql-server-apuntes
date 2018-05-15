@@ -66,3 +66,78 @@ CREATE TABLE dbo.PERSON (
 	CreatedAt DATE DEFAULT GETDATE() CONSTRAINT NN_CreatedAt NOT NULL
 );
 ```
+### Restrincciones (CONSTRAINT)
+#### Tipos de Restricciones
+- PRIMARY KEY
+- FOREIGN KEY
+- NOT NULL
+- UNIQUE
+- CHECK
+
+```sql
+/*Sitaxis*/
+CREATE TABLE [Schema].table
+	(Cikumn datatype [DEFAULT expr] [Column_Constraint],
+	...
+	[table_constraint][,...]);
+	
+/*Sintaxis de restriccion a nivel de columna */
+column [CONSTRAINT constraint_name] constraint_type,
+
+/*Sintaxis de restriccion a nivel de tabla*/
+columna,...
+[CONSTRAINT constraint_name] constraint_type
+(column, ...),
+```
+Ejemplo
+
+```sql
+/* Primary Key constraint sin nombre */
+CREATE TABLE dbo.Employee(EmployeeID INT PRIMARY KEY, EmployeeName VARCHAR(50));
+
+/* Primary Key constraint con nombre explicito a nivel de fila */
+CREATE TABLE dbo.Employee(EmployeeID INT CONSTRAINT PK_Employee PRIMARY KEY, EmployeeName VARCHAR(50));
+
+/* Primary Key constraint con nombre explicito a nivel de tabla */
+CREATE TABLE dbo.Employee(EmployeeID INT
+	, EmployeeName VARCHAR(50)
+	, CONSTRAINT PK_Employee PRIMARY KEY(EmployeeID));
+
+```
+
+#### Restricciones Foreign Key
+- FOREIGN KEY: define la columna en la tabla secundaria a nivel de restricción de tabla
+- REFERENCES: identifica la tabla y la columna en la tabla principal
+- ON DELETE CASCADE: suprime las filas dependientes de la tabla secundaria cuando se suprime una fila de la tabla principal
+- ON DELETE SET NULL: convierte los valores de clave ajena dependiente en nulos
+
+#### Restricciones CHECK
+Define una condicion que debe cumplir cada fila
+```sql
+..., salario INT
+CONSTRAINT emp_salario_min CHECK (salario > 0),...
+```
+### Sentencia ALTER TABLE
+- Permite agregar una nueva columna o restriccion
+- Modificar una definicion de columna existente
+- Borrar una columna o restriccion
+```sql
+-- Incluir una nueva columna
+ALTER TABLE [dbo].[Employee] ADD EmployeeAddress VARCHAR(50) NOT NULL; 
+-- Incluir una nueva restriccion
+ALTER TABLE dbo.Employee ADD CONSTARINT CK_EmployeeAddress CHECK(LEN(EmployeeAddress) > 0);
+-- Eliminar una columna
+ALTER TABLE dbo.Employee DROP COLUMN EmployeeAddress;
+-- Eliminar una restriccion
+ALTER TABLE dbo.Employee DROP CONSTRAINT CK_EmployeeAddress;
+-- Modificar una columna -- Incrementa tamanio de Columna
+ALTER TABLE dbo.Employee ALTER COLUMN EmployeeAddress VARCHAR(50)
+-- Modificar una columna -- Cambio de tipo de dato
+ALTER TABLE [dbo].[Employee] ALTER COLUMN EmployeeAddress INT;
+```
+### Sentencia DROP TABLE
+- Elimina la tabla y todos sus datos completamente
+- La sentencia falla si hay objetos dependientes
+```sql
+DROP TABLE dbo.Employee;
+```
